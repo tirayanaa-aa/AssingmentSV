@@ -20,7 +20,7 @@ import pandas as pd
 
 # Create the interactive scatter plot
 fig = px.scatter(
-    data_frame=df, 
+    data_frame=df_url, 
     x='HSC', 
     y='Last',
     title='Last Semester Score vs. Higher Secondary Score (HSC)',
