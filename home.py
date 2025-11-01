@@ -19,20 +19,30 @@ st.write(
 banner_image_2 = 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=60' 
 st.image(banner_image_2, use_container_width=True)
 
-st.write(
-    """
-    The aim of scientific visualization is not merely to present data attractively, but to **enhance comprehension and decision-making** through visual analytics. 
-    Applications span across disciplines such as *climate science, medicine, engineering, data science, and environmental studies*.
+st.markdown("""
+### 🧠 Why Student Performance Metrics Matter
+Scientific visualization bridges data and decision-making by transforming raw performance data  
+into **actionable insights**. Through data analytics, we can:
+- Correlate habits with academic results  
+- Track improvement patterns across semesters  
+- Support data-driven decisions for student success  
+""")
 
-    ### Dashboard Objectives:
-    Navigate to the 'Analisis Prestasi Pelajar' section to view interactive visualizations that:
-    1.  **Correlate** academic history and habits.
-    2.  **Compare** performance across demographic groups.
-    3.  **Track** performance trends over semesters.
-    """
+# --- Banner 3: Graduation Success ---
+st.image(
+    "https://images.unsplash.com/photo-1558021211-51b6ecfa0db9?auto=format&fit=crop&w=1200&q=60",
+    use_container_width=True,
+    caption="Empowering Students Toward Academic Success"
 )
 
-if DF.empty:
-    st.error("Data loading failed. Check `utils.py` for errors.")
-else:
-    st.info(f"Data for the dashboard loaded successfully ({len(DF)} records).")
+st.markdown("""
+### 🏆 Project Goals
+- Encourage **data-informed learning strategies**  
+- Support **continuous performance monitoring**  
+- Enhance **student engagement and outcomes**
+
+> “Data is not just numbers — it’s the story of student growth.”
+""")
+
+st.markdown("---")
+st.markdown("© 2025 Student Performance Metrics Dashboard | Faculty of Data Science, UMK")
