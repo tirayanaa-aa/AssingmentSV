@@ -1,41 +1,72 @@
 import streamlit as st
-from utils import DF
+from utils import DF  # Import DF to check data status
 
-# --- Page Content ---
-st.title("📊 Student Performance Metrics Dashboard")
+# --- Page Configuration ---
+st.set_page_config(page_title="Homepage | Student Performance Metrics", layout="wide")
+
+# --- Page Title ---
+st.title("🎓 Student Performance Metrics Dashboard")
 st.header("Project Overview: Scientific Visualization in Education", divider="blue")
 
-# 📢 ACTION REQUIRED: Replace the URL below with the direct link to your new banner image.
-# Example of a new image URL: 'https://new-image-host.com/path/to/my/new_banner.png'
-banner_image_1 = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/USMC-100603-M-2322L-109.jpg/640px-USMC-100603-M-2322L-109.jpg' 
+# --- Top Banner ---
+st.markdown(
+    """
+    <div style='text-align:center;'>
+        <img src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1' 
+             style='width:90%; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.3);'>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-st.image(banner_image_1, use_container_width=True)
-# ... (rest of your home.py content remains the same)
-
+# --- Introduction Section ---
 st.write(
     """
-    ***Scientific Visualization*** is a multidisciplinary field that focuses on transforming complex scientific data into visual forms that are easier to understand, interpret, and communicate. 
-    Through the use of computational techniques, visualization helps researchers explore datasets, identify hidden patterns, and gain insights that would otherwise remain obscure in numerical form.
+    This dashboard applies the principles of **Scientific Visualization** to explore a dataset of student performance.
+    The goal is to transform complex academic, behavioral, and demographic data into **clear, actionable insights** 
+    that reveal key performance drivers and patterns that may not be visible in raw data.
+
+    By visualizing this information interactively, educators and analysts can better identify the relationships between 
+    academic results, study habits, and socioeconomic backgrounds — supporting evidence-based academic improvement.
     """
 )
 
-banner_image_2 = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i_2.jpeg' 
-st.image(banner_image_2, use_container_width=True)
-
-st.write(
+# --- Secondary Banner (Data Theme) ---
+st.markdown(
     """
-    The aim of scientific visualization is not merely to present data attractively, but to **enhance comprehension and decision-making** through visual analytics. 
-    Applications span across disciplines such as *climate science, medicine, engineering, data science, and environmental studies*.
+    <div style='text-align:center; margin-top:30px;'>
+        <img src='https://images.unsplash.com/photo-1584697964190-2c194de9ae59' 
+             style='width:90%; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.3);'>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-    ### Dashboard Objectives:
-    Navigate to the 'Analisis Prestasi Pelajar' section to view interactive visualizations that:
-    1.  **Correlate** academic history and habits.
-    2.  **Compare** performance across demographic groups.
-    3.  **Track** performance trends over semesters.
+# --- Objectives Section ---
+st.markdown(
+    """
+    ### 🎯 Core Objectives of This Dashboard
+
+    This analysis is structured around three main **visualization objectives** that support understanding of student performance:
+
+    1. **Objective 1 – Prior Academic & Habits:**  
+       Explore how academic history (HSC/SSC), class attendance, and study preparation influence overall performance.
+
+    2. **Objective 2 – Demographic & Socioeconomic Factors:**  
+       Examine how variables like **Gender**, **Department**, **Hometown**, and **Income Level** relate to performance outcomes (CGPA).
+
+    3. **Objective 3 – Temporal & Habit Interactions:**  
+       Analyze performance trends across **semesters** and explore how habits such as **study time** and **gaming** impact results over time.
+
+    Together, these objectives help uncover actionable insights that can support academic decision-making and student guidance.
     """
 )
 
+st.markdown("---")
+
+# --- Data Status Check ---
 if DF.empty:
-    st.error("Data loading failed. Check `utils.py` for errors.")
+    st.error("❌ Data loading failed. Please check the `utils.py` file and your internet connection.")
 else:
-    st.info(f"Data for the dashboard loaded successfully ({len(DF)} records).")
+    st.success(f"✅ Data for the analysis loaded successfully. Total records: {len(DF)}.")
+    st.info("Use the **sidebar menu** to explore visualizations for each objective.")
