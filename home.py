@@ -52,11 +52,6 @@ Navigate through the sidebar to explore the analysis objectives:
 Each visualization is **interactive** — you can hover, zoom, and filter data to gain deeper insights.
 """)
 
-st.info("""
-This dashboard empowers both students and educators to explore performance data interactively.  
-By identifying trends and correlations, it aims to **enhance learning outcomes** and promote **academic excellence** within the institution.
-""")
-
 # --- Footer ---
 st.markdown("""
 ---
