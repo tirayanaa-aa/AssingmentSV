@@ -5,7 +5,7 @@ st.header("Leveraging Data for Academic Insight", divider="blue")
 
 # --- Banner 1: High-Level Visualization Concept ---
 # Use a conceptual image here (see suggestions below)
-banner_image_1 = 'YOUR_NEW_ABSTRACT_VISUALIZATION_URL_HERE'
+banner_image_1 = 'https://png.pngtree.com/thumb_back/fw800/background/20220908/pngtree-big-data-visualization-abstract-structure-banner-dof-digital-photo-image_38148772.jpg'
 st.image(banner_image_1, use_container_width=True)
 
 st.write(
