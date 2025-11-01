@@ -5,7 +5,7 @@ st.header("Leveraging Data for Academic Insight", divider="blue")
 
 # --- Banner 1: High-Level Visualization Concept ---
 # Use a conceptual image here (see suggestions below)
-banner_image_1 = 'https://depositphotos.com/photo/abstract-background-bending-color-grid-data-technology-concept-visual-presentation-575817740.html'
+banner_image_1 = 'https://plus.unsplash.com/premium_photo-1750859860207-4da0c4f09785?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=871'
 st.image(banner_image_1, use_container_width=True)
 
 st.write(
