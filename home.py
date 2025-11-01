@@ -1,13 +1,16 @@
 import streamlit as st
-from utils import DF # Import DF to check data status
+from utils import DF
 
 # --- Page Content ---
-st.title("🔬 Introduction to Scientific Visualization")
-st.header("Student Performance Metrics Dashboard", divider="blue")
+st.title("📊 Student Performance Metrics Dashboard")
+st.header("Project Overview: Scientific Visualization in Education", divider="blue")
 
-# Add a banner image at the top
-banner_image_1 = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i.jpeg' 
+# 📢 ACTION REQUIRED: Replace the URL below with the direct link to your new banner image.
+# Example of a new image URL: 'https://new-image-host.com/path/to/my/new_banner.png'
+banner_image_1 = 'YOUR_NEW_IMAGE_URL_HERE' 
+
 st.image(banner_image_1, use_container_width=True)
+# ... (rest of your home.py content remains the same)
 
 st.write(
     """
