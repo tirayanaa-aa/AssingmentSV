@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# --- CONFIGURATION (First st command) ---
-st.set_page_config(layout="wide", page_title="Student Performance Metrics")
-st.header("Scientific Visualization", divider="gray")
-st.title("🎓 Student Performance Metrics")
-st.markdown("---")
+# --- Configuration ---
+st.set_page_config(
+    page_title="Student Performance Metrics",
+    layout="wide"
+)
 
 # --- Data Loading and Caching ---
 DATA_URL = 'https://raw.githubusercontent.com/tirayanaa-aa/AssingmentSV/refs/heads/main/processed_data.csv'
@@ -73,3 +73,4 @@ if COL_OVERALL in df.columns:
     st.plotly_chart(fig, use_container_width=True)
 else:
     st.error(f"Cannot plot: The required column '{COL_OVERALL}' is missing from the data.")
+
