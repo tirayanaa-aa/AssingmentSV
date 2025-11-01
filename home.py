@@ -16,7 +16,7 @@ st.write(
     """
 )
 
-banner_image_2 = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i_2.jpeg' 
+banner_image_2 = 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=60' 
 st.image(banner_image_2, use_container_width=True)
 
 st.write(
