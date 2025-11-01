@@ -26,20 +26,30 @@ With effective visual tools, educators and decision-makers can identify performa
 This dashboard serves as a bridge between data and meaningful academic improvement by transforming raw performance data into **clear, actionable insights**.
 """)
 
-# --- Banner 3: Graduation Success ---
-st.image(
-    "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=1200&q=60",
-    use_container_width=True,
-    caption="Empowering Students Toward Academic Success"
-)
-
+# --- Section 2: About the Dataset ---
 st.markdown("""
-### 🏆 Project Goals
-- Encourage **data-informed learning strategies** to help students understand and improve their performance  
-- Support **continuous performance monitoring** across semesters to track academic growth  
-- Enhance **student engagement** through transparent, visual, and evidence-based analytics  
-- Provide educators with tools to make **targeted interventions** for better student outcomes  
-- Foster a culture of **accountability, motivation, and progress** in learning environments  
+### 📚 About the Dataset
+The dataset used in this dashboard represents various aspects of student performance, including academic scores, attendance rates, study habits, and demographic backgrounds.  
+It combines **numerical data** (such as examination marks and CGPA) with **categorical information** (such as gender, hometown, and income level) to enable both descriptive and comparative analysis.  
+This diversity allows for an in-depth exploration of how different factors contribute to overall academic success.
+""")
+
+# --- Section 3: Why Visualization Matters ---
+st.markdown("""
+### 🎨 Why Visualization Matters
+In today’s data-driven education landscape, visualization acts as a **bridge between complexity and clarity**.  
+Raw numbers alone cannot reveal relationships or trends — but through charts, heatmaps, and dashboards, we can uncover insights that lead to better decisions.  
+Scientific visualization transforms large datasets into *visual narratives* that highlight performance differences, correlations, and growth patterns in a way that’s easy to interpret.
+""")
+
+# --- Section 4: How to Use This Dashboard ---
+st.markdown("""
+### 🧭 How to Use This Dashboard
+Navigate through the sidebar to explore the analysis objectives:
+1. **Objective 1 – Academic & Habit Patterns:** Explore how study habits, attendance, and prior scores influence student performance.  
+2. **Objective 2 – Demographic & Socioeconomic Influences:** Analyze the impact of gender, department, hometown, and income level on academic outcomes.  
+3. **Objective 3 – Temporal Trends & Behavioral Interactions:** Observe CGPA changes across semesters and the effect of habits such as study time and gaming.
+Each visualization is **interactive** — you can hover, zoom, and filter data to gain deeper insights.
 """)
 
 st.info("""
