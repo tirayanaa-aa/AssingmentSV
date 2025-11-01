@@ -1,33 +1,38 @@
-# --- Updated Page Title and Header ---
+import streamlit as st
+from utils import DF # Import DF to check data status
 
-st.title("📊 Student Performance Metrics Dashboard")
-st.header("Leveraging Data for Academic Insight", divider="blue")
+# --- Page Content ---
+st.title("🔬 Introduction to Scientific Visualization")
+st.header("Student Performance Metrics Dashboard", divider="blue")
 
-# --- Banner 1: High-Level Visualization Concept ---
-# Use a conceptual image here (see suggestions below)
-banner_image_1 = 'https://assets.qlik.com/image/upload/w_1408/q_auto/qlik/glossary/compare/seo-hero-compare_cyuosd.jpg'
+# Add a banner image at the top
+banner_image_1 = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i.jpeg' 
 st.image(banner_image_1, use_container_width=True)
 
 st.write(
     """
-    ***Scientific Visualization*** is the powerful bridge between raw data and informed decision-making. In the field of education, it is essential for transforming complex academic, habitual, and demographic figures into **clear, actionable insights**. This dashboard applies computational techniques to help faculty and students **identify hidden patterns** and **key predictors of performance**.
+    ***Scientific Visualization*** is a multidisciplinary field that focuses on transforming complex scientific data into visual forms that are easier to understand, interpret, and communicate. 
+    Through the use of computational techniques, visualization helps researchers explore datasets, identify hidden patterns, and gain insights that would otherwise remain obscure in numerical form.
     """
 )
 
-# --- Banner 2: Data Source & Context ---
-# Use a specific image here (e.g., a conceptual student or a data table)
-banner_image_2 = 'YOUR_NEW_EDUCATION_METRICS_URL_HERE'
+banner_image_2 = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i_2.jpeg' 
 st.image(banner_image_2, use_container_width=True)
 
 st.write(
     """
-    The aim of this project is not merely to display scores, but to **enhance comprehension and guide intervention strategies**. Our analysis spans across factors such as prior academic history, socioeconomic background, and study habits.
+    The aim of scientific visualization is not merely to present data attractively, but to **enhance comprehension and decision-making** through visual analytics. 
+    Applications span across disciplines such as *climate science, medicine, engineering, data science, and environmental studies*.
 
     ### Dashboard Objectives:
-    Navigate to the **'Analisis Prestasi Pelajar'** section to view interactive visualizations that:
-    1.  **Correlate** academic performance with factors like attendance and preparation time.
-    2.  **Compare** performance distributions across gender, department, and income levels.
-    3.  **Track** academic progression and the interactive effects of key habits over time.
+    Navigate to the 'Analisis Prestasi Pelajar' section to view interactive visualizations that:
+    1.  **Correlate** academic history and habits.
+    2.  **Compare** performance across demographic groups.
+    3.  **Track** performance trends over semesters.
     """
 )
-# Add your data status check from utils.py here
+
+if DF.empty:
+    st.error("Data loading failed. Check `utils.py` for errors.")
+else:
+    st.info(f"Data for the dashboard loaded successfully ({len(DF)} records).")
