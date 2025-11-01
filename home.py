@@ -6,7 +6,7 @@ st.title("🔬 Introduction to Scientific Visualization")
 st.header("Student Performance Metrics Dashboard", divider="blue")
 
 # Add a banner image at the top
-banner_image_1 = 'https://raw.githubusercontent.com/fakhitah3/FHPK-TVET/main/3u1i.jpeg' 
+banner_image_1 = 'https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1200&q=60' 
 st.image(banner_image_1, use_container_width=True)
 
 st.write(
