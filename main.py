@@ -99,7 +99,7 @@ st.divider()
 # ====================================================================
 # OBJECTIVE 1: PRIOR ACADEMIC & HABITS (Scatter, Heatmap, Bar Plot)
 # ====================================================================
-st.header("1. Prior Academic Standing and Study Habits", divider="blue")
+st.header("OBJECTIVE 1", divider="blue")
 
 col1, col2 = st.columns(2)
 
