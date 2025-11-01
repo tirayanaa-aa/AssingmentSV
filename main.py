@@ -10,7 +10,7 @@ st.set_page_config(
 
 # 1. Scientific Visualization Introduction/Context Page
 # SET AS DEFAULT: This will be the first page users see.
-viz_intro = st.Page('pages/dashboard_context.py', 
+viz_intro = st.Page('dashboard_context.py', ...), 
                     title='Visualisasi Ilmiah (Start)', 
                     default=True, 
                     icon=":material/visibility:")
