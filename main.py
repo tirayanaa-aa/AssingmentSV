@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 # --- Configuration ---
 st.set_page_config(
-    page_title="Student Performance Analysis",
+    page_title="Student Performance Metrics",
     layout="wide"
 )
 
