@@ -56,7 +56,7 @@ if df.empty:
 
 # 1. Display the head of the DataFrame (equivalent to the 'df' output)
 st.subheader("Data Preview (First 5 Rows)")
-st.dataframe(df.head(), use_container_width=True)
+st.dataframe(df, use_container_width=True)
 
 st.divider()
 
