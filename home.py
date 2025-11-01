@@ -16,9 +16,6 @@ st.write(
     """
 )
 
-banner_image_2 = 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=60' 
-st.image(banner_image_2, use_container_width=True)
-
 st.markdown("""
 ### 🧠 Why Student Performance Metrics Matter
 Understanding student performance through data visualization provides valuable insights into academic achievement, learning behaviors, and participation trends.  
