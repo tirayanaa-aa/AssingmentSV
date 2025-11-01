@@ -3,7 +3,7 @@ import pandas as pd
 from collections import OrderedDict
 
 # --- Constants ---
-# Assuming the file is hosted online or accessible via a path
+# Assuming the file is hosted online for Streamlit Cloud compatibility
 DATA_URL = 'https://raw.githubusercontent.com/tirayanaa-aa/AssingmentSV/refs/heads/main/processed_data.csv'
 
 # Define columns
@@ -55,8 +55,8 @@ def load_data(url):
         
         df.dropna(subset=[COL_HSC, COL_LAST, COL_OVERALL], inplace=True)
 
-        # In a real app, you might not show st.success here, but we'll leave it for debugging
-        # st.success(f"Successfully loaded and pre-processed {len(df)} rows.")
+        # Remove the success message to keep the main app clean
+        # st.success(f"Successfully loaded and pre-processed {len(df)} rows.") 
         return df
     except Exception as e:
         st.error(f"Error loading or processing data from URL: {e}")
@@ -64,4 +64,3 @@ def load_data(url):
 
 # Load the data once and make it accessible
 DF = load_data(DATA_URL)
-
