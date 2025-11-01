@@ -8,7 +8,7 @@ st.title("🎯 Objective 1: Prior Academic & Habits")
 st.header("Visualizing the relationship between academic history, study habits, and performance.", divider="blue")
 
 if DF.empty:
-    st.warning("Data is not available. Check the Visualisasi Ilmiah page for data status.")
+    st.warning("Data is not available. Check the homepage for data status.")
     st.stop()
 
 col1, col2 = st.columns(2)
