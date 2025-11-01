@@ -4,47 +4,39 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # --- Constants for Data and Columns ---
-DATA_URL = 'https://raw.githubusercontent.com/tirayanaa-aa/AssingmentSV/refs/heads/main/processed_data.csv'
+# Use the local file name where your data resides
+DATA_FILE = 'ResearchInformation3.csv'
+
+# Define constants for the actual column names in ResearchInformation3.csv
+COL_SSC_GPA = 'SSC'
+COL_HSC_GPA = 'HSC'
+COL_GENDER = 'Gender'
+COL_OVERALL = 'Overall'
+COL_ATTENDANCE = 'Attendance'
 
 # --- Data Loading and Preprocessing ---
 @st.cache_data
 def load_data():
     """
-    Loads the dataset and cleans up the academic year column name.
+    Loads the local dataset.
     """
     try:
-        df = pd.read_csv(DATA_URL)
-        
-        # Identify and rename the problematic academic year column
-        academic_col_match = [col for col in df.columns if 'Academic Year in EU' in col]
-        
-        if academic_col_match:
-            df.rename(columns={academic_col_match[0]: COL_ACADEMIC_YEAR_CLEANED}, inplace=True)
-            df[COL_ACADEMIC_YEAR_CLEANED] = df[COL_ACADEMIC_YEAR_CLEANED].astype(str).str.strip()
-        else:
-            st.error("The 'Bachelor Academic Year in EU' column was not found. Please check the CSV file structure.")
-            return pd.DataFrame()
-        
+        # Load the CSV file
+        df = pd.read_csv(DATA_FILE)
+
+        # Basic cleaning and type conversion
+        df[COL_HSC_GPA] = pd.to_numeric(df[COL_HSC_GPA], errors='coerce')
+        df[COL_SSC_GPA] = pd.to_numeric(df[COL_SSC_GPA], errors='coerce')
+        df[COL_OVERALL] = pd.to_numeric(df[COL_OVERALL], errors='coerce')
+
+        # Drop rows with missing values in key columns
+        df.dropna(subset=[COL_HSC_GPA, COL_SSC_GPA, COL_OVERALL], inplace=True)
+
         return df
+    except FileNotFoundError:
+        st.error(f"Error: The data file '{DATA_FILE}' was not found. Please ensure it is uploaded.")
+        return pd.DataFrame()
     except Exception as e:
-        st.error(f"Error loading data from GitHub: {e}")
+        st.error(f"Error processing data: {e}")
         return pd.DataFrame()
 
-df = load_data()
-
-# --- Streamlit App Layout ---
-st.set_page_config(
-    page_title="Student Performance Metrics",
-    layout="wide"
-)
-
-st.title("🎓 Student Performance Metrics")
-
-if df.empty or not all(col in df.columns for col in [COL_SSC_GPA, COL_HSC_GPA, COL_GENDER, COL_ACADEMIC_YEAR_CLEANED]):
-    st.error("Dashboard cannot run due to missing data or essential columns.")
-    st.stop()
-
-st.subheader("Data Preview")
-st.dataframe(df.head())
-
-st.divider()
