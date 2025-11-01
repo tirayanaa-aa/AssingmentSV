@@ -99,7 +99,7 @@ st.divider()
 # ====================================================================
 # OBJECTIVE 1: PRIOR ACADEMIC & HABITS (Scatter, Heatmap, Bar Plot)
 # ====================================================================
-st.header("OBJECTIVE 1", divider="blue")
+st.header("VISUALIZATION OBJECTIVE 1", divider="blue")
 
 col1, col2 = st.columns(2)
 
@@ -174,7 +174,7 @@ st.divider()
 # ====================================================================
 # OBJECTIVE 2: DEMOGRAPHIC & SOCIOECONOMIC (Bar, Violin, Box)
 # ====================================================================
-st.header("2. Demographic and Socioeconomic Background", divider="red")
+st.header("VISUALIZATION OBJECTIVE 2", divider="red")
 
 # --- 2A. Average Overall CGPA by Department and Gender (Grouped Bar Chart) ---
 st.subheader("A. Average Overall CGPA by Department and Gender")
@@ -239,7 +239,7 @@ st.divider()
 # ====================================================================
 # OBJECTIVE 3: TEMPORAL & HABIT INTERACTION (Line, Dumbbell, Grouped Bar)
 # ====================================================================
-st.header("3. Temporal Performance and Habit Interaction", divider="green")
+st.header("VISUALIZATION OBJECTIVE 3", divider="green")
 
 # --- 3A. Average Overall CGPA by Semester (Line Chart) ---
 st.subheader("A. Average Overall CGPA Trend by Semester (Line Chart)")
