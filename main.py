@@ -12,25 +12,28 @@ st.markdown("---")
 import plotly.express as px
 import pandas as pd
 
-# Assuming 'df' is the DataFrame loaded from 'ResearchInformation3.csv'
-# Replace 'df' with your actual DataFrame variable name if different.
+# Assuming the DataFrame is named 'df' from previous operations.
+# If your DataFrame variable is named differently, replace 'df' below.
 
-# Load the dataset (if not already loaded in the environment)
-# df = pd.read_csv('ResearchInformation3.csv') 
-
-# Create the interactive scatter plot
+# Create the interactive scatter plot using plotly.express
 fig = px.scatter(
-    data_frame=df_url, 
-    x='HSC', 
+    data_frame=df,
+    x='HSC',
     y='Last',
     title='Last Semester Score vs. Higher Secondary Score (HSC)',
-    labels={'HSC': 'HSC Score', 'Last': 'Last Semester Score'}
+    # Customize hover labels for clarity
+    labels={
+        'HSC': 'HSC Score',
+        'Last': 'Last Semester Score'
+    },
+    # Optional: Add color/size for further analysis (e.g., color by Gender)
+    # color='Gender',
 )
 
-# You can optionally customize the layout further
+# Customize layout (optional)
 fig.update_layout(
     xaxis_title='HSC Score',
-    yaxis_title='Last Score'
+    yaxis_title='Last Semester Score'
 )
 
 # Display the plot
