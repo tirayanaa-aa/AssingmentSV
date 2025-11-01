@@ -92,7 +92,7 @@ if df.empty:
 
 # 1. Data Preview
 st.subheader("Data Overview")
-st.dataframe(df.head(), use_container_width=True)
+st.dataframe(df, use_container_width=True)
 
 st.divider()
 
