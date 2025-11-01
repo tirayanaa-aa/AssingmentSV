@@ -56,3 +56,12 @@ st.info("""
 This dashboard empowers both students and educators to explore performance data interactively.  
 By identifying trends and correlations, it aims to **enhance learning outcomes** and promote **academic excellence** within the institution.
 """)
+
+# --- Footer ---
+st.markdown("""
+---
+<center>
+👩‍🎓 *Developed by a UMK Student — FSDK*  
+📍 Universiti Malaysia Kelantan | 2025
+</center>
+""", unsafe_allow_html=True)
