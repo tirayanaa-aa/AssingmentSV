@@ -8,16 +8,24 @@ st.set_page_config(
 
 # --- Define Pages ---
 
-# Ensure all file references exist in the same directory as main.py
-home = st.Page('home.py', title='Homepage', default=True, icon=":material/home:")
-obj1 = st.Page('objective1.py', title='Objective 1: Academic & Habits', icon=":material/trending_up:")
-obj2 = st.Page('objective2.py', title='Objective 2: Demographic & Socioeconomic', icon=":material/group:")
-obj3 = st.Page('objective3.py', title='Objective 3: Temporal & Interaction', icon=":material/timeline:")
+# 1. Scientific Visualization Introduction/Context Page (New default start page)
+viz_intro = st.Page(
+    'pages/dashboard_context.py', 
+    title='Visualisasi Ilmiah (Start)', 
+    default=True, 
+    icon=":material/visibility:"
+)
+
+# 2. Student Performance Metrics Dashboard Pages
+# ALL pages must include the 'pages/' prefix if they are in that folder.
+obj1 = st.Page('pages/objective1.py', title='Objektif 1: Akademik & Tabiat', icon=":material/trending_up:")
+obj2 = st.Page('pages/objective2.py', title='Objektif 2: Demografi & Ekonomi', icon=":material/group:")
+obj3 = st.Page('pages/objective3.py', title='Objektif 3: Tren & Interaksi', icon=":material/timeline:")
 
 # --- Navigation Structure ---
 pg = st.navigation(
     {
-        "Menu Utama": [home],
+        "Menu Utama": [viz_intro],
         "Analisis Prestasi Pelajar": [obj1, obj2, obj3]
     }
 )
