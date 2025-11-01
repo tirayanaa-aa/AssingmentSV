@@ -1,73 +1,89 @@
 import streamlit as st
-import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from collections import OrderedDict
+from utils import DF, COL_HSC, COL_LAST, COL_GENDER, COL_ATTENDANCE, COL_OVERALL
 
-# ----------------- CONFIG -----------------
-st.set_page_config(page_title="Objective 1 - Academic & Habits", layout="wide")
+# --- Page Setup ---
+st.title("🎯 Objective 1: Prior Academic & Habits")
+st.header("Visualizing the relationship between academic history, study habits, and performance.", divider="blue")
 
-DATA_URL = 'https://raw.githubusercontent.com/tirayanaa-aa/AssingmentSV/refs/heads/main/processed_data.csv'
+if DF.empty:
+    st.warning("Data is not available. Please check the main application script.")
+    st.stop()
 
-COL_HSC = 'HSC'
-COL_SSC = 'SSC'
-COL_LAST = 'Last'
-COL_OVERALL = 'Overall'
-COL_PREPARATION = 'Preparation'
-COL_ATTENDANCE = 'Attendance'
-COL_GENDER = 'Gender'
+col1, col2 = st.columns(2)
 
-ATTENDANCE_ORDER = ['0%-19%', '20%-39%', 'Below 40%', '40%-59%', '60%-79%', '80%-100%']
-PREP_ORDER = ['0-1 Hour', '1-2 Hours', '2-3 Hours', 'More than 3 Hours']
+with col1:
+    # --- 1A. Scatter Plot: Last Score vs. HSC Score ---
+    st.subheader("A. Last Score vs. HSC Score (Scatter)")
+    if all(col in DF.columns for col in [COL_HSC, COL_LAST]):
+        fig_scatter = px.scatter(
+            DF,
+            x=COL_HSC,
+            y=COL_LAST,
+            color=COL_GENDER if COL_GENDER in DF.columns else None,
+            title="Last Semester Score vs. Higher Secondary Score (HSC)",
+            labels={COL_HSC: 'HSC Score', COL_LAST: 'Last Score'},
+            template='plotly_white'
+        )
+        st.plotly_chart(fig_scatter, use_container_width=True)
 
-# ----------------- LOAD DATA -----------------
-@st.cache_data
-def load_data(url):
-    df = pd.read_csv(url)
-    df[COL_HSC] = pd.to_numeric(df[COL_HSC], errors='coerce')
-    df[COL_LAST] = pd.to_numeric(df[COL_LAST], errors='coerce')
-    df[COL_OVERALL] = pd.to_numeric(df[COL_OVERALL], errors='coerce')
+with col2:
+    # --- 1B. Mean Overall CGPA by Attendance (Bar Chart) ---
+    st.subheader("B. Mean Overall CGPA by Attendance (Bar Chart)")
+    if COL_ATTENDANCE in DF.columns and COL_OVERALL in DF.columns:
+        # Calculate mean, using the categorical order set in load_data
+        mean_overall_by_attendance = DF.groupby(COL_ATTENDANCE, observed=True)[COL_OVERALL].mean().reset_index()
+        mean_overall_by_attendance.columns = [COL_ATTENDANCE, 'Mean Overall CGPA']
 
-    prep_map = OrderedDict(zip(PREP_ORDER, [0.5, 1.5, 2.5, 3.5]))
-    df['Preparation_numeric'] = df[COL_PREPARATION].map(prep_map)
+        # Ensure the categorical order is respected in the plot
+        if isinstance(mean_overall_by_attendance[COL_ATTENDANCE].dtype, pd.CategoricalDtype):
+            category_order = mean_overall_by_attendance[COL_ATTENDANCE].cat.categories.tolist()
+        else:
+            category_order = None # Fallback
 
-    attend_map = OrderedDict(zip(ATTENDANCE_ORDER, [10, 30, 40, 50, 70, 90]))
-    df['Attendance_numeric'] = df[COL_ATTENDANCE].map(attend_map)
+        fig_bar = px.bar(
+            mean_overall_by_attendance,
+            x=COL_ATTENDANCE,
+            y='Mean Overall CGPA',
+            color='Mean Overall CGPA',
+            color_continuous_scale=px.colors.sequential.Viridis,
+            text='Mean Overall CGPA',
+            title='Mean Overall CGPA by Class Attendance Level',
+            category_orders={COL_ATTENDANCE: category_order}
+        )
+        fig_bar.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+        fig_bar.update_layout(yaxis_title="Mean Overall CGPA")
+        st.plotly_chart(fig_bar, use_container_width=True)
 
-    df[COL_ATTENDANCE] = pd.Categorical(df[COL_ATTENDANCE],
-                                        categories=[c for c in ATTENDANCE_ORDER if c in df[COL_ATTENDANCE].unique()],
-                                        ordered=True)
-    return df
 
-df = load_data(DATA_URL)
+st.markdown("---")
 
-# ----------------- CONTENT -----------------
-st.header("🎯 Objective 1: Prior Academic & Habits")
-st.markdown("This section explores how students’ past academic records and study habits affect their performance.")
+# --- 1C. Correlation Matrix Heatmap ---
+st.subheader("C. Correlation Matrix of Key Numerical Variables (Heatmap)")
+numerical_cols_corr = [COL_HSC, 'SSC', 'Preparation_numeric', 'Attendance_numeric', COL_LAST, COL_OVERALL]
+available_cols_corr = [col for col in numerical_cols_corr if col in DF.columns]
 
-# A. Scatter Plot
-st.subheader("A. Last Score vs. HSC Score (Scatter)")
-fig_scatter = px.scatter(df, x=COL_HSC, y=COL_LAST, color=COL_GENDER,
-                         title="Last Semester Score vs. HSC Score", template='plotly_white')
-st.plotly_chart(fig_scatter, use_container_width=True)
+if len(available_cols_corr) >= 2:
+    correlation_matrix = DF[available_cols_corr].corr().round(2)
 
-# B. Bar Chart - Attendance
-st.subheader("B. Mean Overall CGPA by Attendance")
-mean_by_attendance = df.groupby(COL_ATTENDANCE, observed=True)[COL_OVERALL].mean().reset_index()
-fig_bar = px.bar(mean_by_attendance, x=COL_ATTENDANCE, y=COL_OVERALL,
-                 color=COL_OVERALL, text=COL_OVERALL,
-                 color_continuous_scale=px.colors.sequential.Viridis,
-                 title="Mean Overall CGPA by Attendance Level")
-fig_bar.update_traces(texttemplate='%{text:.2f}', textposition='outside')
-st.plotly_chart(fig_bar, use_container_width=True)
+    fig_corr = go.Figure(data=go.Heatmap(
+        z=correlation_matrix.values,
+        x=correlation_matrix.columns,
+        y=correlation_matrix.index,
+        colorscale='RdBu', 
+        zmin=-1, 
+        zmax=1,
+        text=correlation_matrix.values,
+        texttemplate="%{text}",
+        textfont={"size": 10}
+    ))
 
-# C. Correlation Heatmap
-st.subheader("C. Correlation Matrix (Heatmap)")
-num_cols = [COL_HSC, COL_SSC, 'Preparation_numeric', 'Attendance_numeric', COL_LAST, COL_OVERALL]
-corr = df[num_cols].corr().round(2)
-fig_corr = go.Figure(data=go.Heatmap(
-    z=corr.values, x=corr.columns, y=corr.columns, colorscale='RdBu', zmin=-1, zmax=1,
-    text=corr.values, texttemplate="%{text}"
-))
-fig_corr.update_layout(title="Correlation of Academic and Habit Variables", yaxis=dict(autorange="reversed"))
-st.plotly_chart(fig_corr, use_container_width=True)
+    fig_corr.update_layout(
+        title='Correlation Matrix of Academic and Habit Variables',
+        yaxis=dict(autorange="reversed"),
+        height=600
+    )
+    st.plotly_chart(fig_corr, use_container_width=True)
+else:
+    st.warning("Not enough numerical columns available to compute a correlation matrix.")
