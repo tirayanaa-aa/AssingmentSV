@@ -7,7 +7,7 @@ st.header("Project Overview: Scientific Visualization in Education", divider="bl
 
 # 📢 ACTION REQUIRED: Replace the URL below with the direct link to your new banner image.
 # Example of a new image URL: 'https://new-image-host.com/path/to/my/new_banner.png'
-banner_image_1 = 'YOUR_NEW_IMAGE_URL_HERE' 
+banner_image_1 = 'https://assets.qlik.com/image/upload/w_1408/q_auto/qlik/glossary/compare/seo-hero-compare_cyuosd.jpg' 
 
 st.image(banner_image_1, use_container_width=True)
 # ... (rest of your home.py content remains the same)
