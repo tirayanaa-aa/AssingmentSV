@@ -11,7 +11,7 @@ st.title("📈 Objective 3: Temporal & Habit Interaction")
 st.header("Exploring trends over semesters and the interaction between study habits.", divider="green")
 
 if DF.empty:
-    st.warning("Data is not available. Check the homepage for data status.")
+    st.warning("Data is not available. Check the Visualisasi Ilmiah page for data status.")
     st.stop()
 
 
