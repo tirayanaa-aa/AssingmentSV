@@ -83,7 +83,7 @@ df = load_data(DATA_URL)
 
 # --- Streamlit Application Content ---
 
-st.title("📊 Student Performance Comprehensive Analysis Dashboard")
+st.title("📊 Student Performance Metrics Dashboard")
 st.markdown("This dashboard converts a suite of Matplotlib/Seaborn plots into interactive Plotly visualizations, organized by objective.")
 
 if df.empty:
