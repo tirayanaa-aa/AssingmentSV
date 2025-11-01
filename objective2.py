@@ -1,52 +1,74 @@
 import streamlit as st
-import pandas as pd
 import plotly.express as px
+from utils import DF, COL_DEPARTMENT, COL_GENDER, COL_OVERALL, COL_HOMETOWN, COL_INCOME
 
-# ----------------- CONFIG -----------------
-st.set_page_config(page_title="Objective 2 - Demographics", layout="wide")
+# --- Page Setup ---
+st.title("👤 Objective 2: Demographic & Socioeconomic Factors")
+st.header("Analyzing performance variations across different demographic and socioeconomic groups.", divider="red")
 
-DATA_URL = 'https://raw.githubusercontent.com/tirayanaa-aa/AssingmentSV/refs/heads/main/processed_data.csv'
+if DF.empty:
+    st.warning("Data is not available. Please check the main application script.")
+    st.stop()
 
-COL_DEPARTMENT = 'Department'
-COL_GENDER = 'Gender'
-COL_OVERALL = 'Overall'
-COL_HOMETOWN = 'Hometown'
-COL_INCOME = 'Income'
 
-# ----------------- LOAD DATA -----------------
-@st.cache_data
-def load_data(url):
-    df = pd.read_csv(url)
-    df[COL_OVERALL] = pd.to_numeric(df[COL_OVERALL], errors='coerce')
-    return df
-
-df = load_data(DATA_URL)
-
-# ----------------- CONTENT -----------------
-st.header("👥 Objective 2: Demographic & Socioeconomic Factors")
-st.markdown("Analyze how demographic and socioeconomic variables influence students’ overall performance.")
-
-# A. Grouped Bar - Department & Gender
+# --- 2A. Average Overall CGPA by Department and Gender (Grouped Bar Chart) ---
 st.subheader("A. Average Overall CGPA by Department and Gender")
-dept_gender = df.groupby([COL_DEPARTMENT, COL_GENDER])[COL_OVERALL].mean().reset_index()
-fig_bar = px.bar(dept_gender, x=COL_DEPARTMENT, y=COL_OVERALL, color=COL_GENDER,
-                 barmode='group', title="Average Overall CGPA by Department and Gender",
-                 template='plotly_white')
-fig_bar.update_xaxes(tickangle=45)
-st.plotly_chart(fig_bar, use_container_width=True)
+if all(col in DF.columns for col in [COL_DEPARTMENT, COL_GENDER, COL_OVERALL]):
+    dept_gender_overall = DF.groupby([COL_DEPARTMENT, COL_GENDER])[COL_OVERALL].mean().reset_index()
 
-# B. Violin - Hometown
-st.subheader("B. CGPA Distribution by Hometown (Violin Plot)")
-fig_violin = px.violin(df, x=COL_HOMETOWN, y=COL_OVERALL, box=True, points="all",
-                       title="Overall CGPA Distribution by Hometown", template='plotly_white')
-st.plotly_chart(fig_violin, use_container_width=True)
+    fig_bar_dept_gender = px.bar(
+        dept_gender_overall,
+        x=COL_DEPARTMENT,
+        y=COL_OVERALL,
+        color=COL_GENDER,
+        barmode='group',
+        title='Average Overall CGPA by Department and Gender',
+        template='plotly_white',
+    )
+    fig_bar_dept_gender.update_xaxes(tickangle=45)
+    st.plotly_chart(fig_bar_dept_gender, use_container_width=True)
 
-# C. Box - Income
-st.subheader("C. CGPA Distribution by Income Level (Box Plot)")
-income_order = ['Low (Below 15,000)', 'Lower middle (15,000-30,000)',
-                'Upper middle (30,000-50,000)', 'High (Above 50,000)']
-fig_box = px.box(df, x=COL_INCOME, y=COL_OVERALL,
-                 category_orders={COL_INCOME: income_order},
-                 title="Overall CGPA Distribution by Income Level", template='plotly_white')
-fig_box.update_xaxes(tickangle=45)
-st.plotly_chart(fig_box, use_container_width=True)
+st.markdown("---")
+
+col3, col4 = st.columns(2)
+
+with col3:
+    # --- 2B. Overall CGPA Distribution by Hometown (Violin Plot) ---
+    st.subheader("B. Overall CGPA Distribution by Hometown (Violin)")
+    if all(col in DF.columns for col in [COL_HOMETOWN, COL_OVERALL]):
+        fig_violin = px.violin(
+            DF,
+            x=COL_HOMETOWN,
+            y=COL_OVERALL,
+            box=True, # Show box plot inside the violin
+            points="all", # Show all points
+            title='Overall CGPA Distribution by Hometown',
+            template='plotly_white'
+        )
+        st.plotly_chart(fig_violin, use_container_width=True)
+
+with col4:
+    # --- 2C. Overall CGPA Distribution by Income Level (Box Plot) ---
+    st.subheader("C. Overall CGPA Distribution by Income Level (Box)")
+    if all(col in DF.columns for col in [COL_INCOME, COL_OVERALL]):
+        # Custom order for Income
+        income_order = [
+            'Low (Below 15,000)', 
+            'Lower middle (15,000-30,000)', 
+            'Upper middle (30,000-50,000)', 
+            'High (Above 50,000)'
+        ]
+        
+        # Filter income_order to only include categories present in the data to avoid Plotly errors
+        valid_income_order = [inc for inc in income_order if inc in DF[COL_INCOME].unique()]
+
+        fig_box = px.box(
+            DF,
+            x=COL_INCOME,
+            y=COL_OVERALL,
+            category_orders={COL_INCOME: valid_income_order},
+            title='Overall CGPA Distribution by Income Level',
+            template='plotly_white'
+        )
+        fig_box.update_xaxes(tickangle=45)
+        st.plotly_chart(fig_box, use_container_width=True)
