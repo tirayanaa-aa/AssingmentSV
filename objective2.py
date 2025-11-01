@@ -7,7 +7,7 @@ st.title("👤 Objective 2: Demographic & Socioeconomic Factors")
 st.header("Analyzing performance variations across different demographic and socioeconomic groups.", divider="red")
 
 if DF.empty:
-    st.warning("Data is not available. Check the homepage for data status.")
+    st.warning("Data is not available. Check the Visualisasi Ilmiah page for data status.")
     st.stop()
 
 
