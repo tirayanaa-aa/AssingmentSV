@@ -14,6 +14,47 @@ if DF.empty:
     st.warning("Data is not available. Check the homepage for data status.")
     st.stop()
 
+# =========================================================================
+# 📢 SUMMARY METRICS SECTION: INSERT HERE
+# =========================================================================
+st.subheader("Key Trend and Habit Summaries")
+
+col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
+
+# Calculate shared required data for metrics
+if COL_SEMESTER in DF.columns and COL_OVERALL in DF.columns:
+    semester_avg = DF.groupby(COL_SEMESTER)[COL_OVERALL].mean()
+    
+    # 1. Best Semester Performance
+    best_semester = semester_avg.idxmax()
+    best_avg = semester_avg.max().round(2)
+    col_kpi1.metric(
+        label="Highest Average CGPA Semester", 
+        value=f"{best_semester} ({best_avg:.2f})"
+    )
+
+    # 3. Difference between Max and Min Semester CGPA
+    sem_min = semester_avg.min()
+    sem_max = semester_avg.max()
+    sem_diff = (sem_max - sem_min).round(2)
+    col_kpi3.metric(
+        label="Max Semester CGPA Difference", 
+        value=f"{sem_diff:.2f}",
+        delta_color="off"
+    )
+
+# 2. Highest Performance Habit Group (Preparation Time)
+if COL_PREPARATION in DF.columns and COL_OVERALL in DF.columns:
+    prep_avg = DF.groupby(COL_PREPARATION)[COL_OVERALL].mean()
+    best_prep = prep_avg.idxmax()
+    best_prep_avg = prep_avg.max().round(2)
+    col_kpi2.metric(
+        label="Best Preparation Time Category", 
+        value=f"{best_prep} ({best_prep_avg:.2f})"
+    )
+
+st.markdown("---") # Visual separation before the charts begin
+# =========================================================================
 
 # --- 3A. Average Overall CGPA by Semester (Line Chart) ---
 st.subheader("A. Average Overall CGPA Trend by Semester (Line Chart)")
