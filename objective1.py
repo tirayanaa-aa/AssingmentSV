@@ -12,27 +12,83 @@ if DF.empty:
     st.stop()
 
 # =========================================================================
-# 📢 SUMMARY METRICS SECTION: KPIs (Condensed for brevity)
+# 📢 SUMMARY METRICS SECTION: STUDENT PERFORMANCE OVERVIEW (Enhanced)
 # =========================================================================
-st.subheader("📈 Key Performance Indicators (KPIs)")
+st.subheader("📈 Summary Metrics Overview")
 
-required_cols = [COL_OVERALL, 'Attendance_numeric', 'Preparation_numeric', COL_HSC]
+required_cols = [COL_OVERALL, 'Attendance_numeric', 'Preparation_numeric']
 if all(col in DF.columns for col in required_cols):
-    
-    # Compute metrics (using placeholders for actual calculation)
+
+    # Compute metrics
     avg_cgpa = DF[COL_OVERALL].mean().round(2)
-    corr_attend = DF['Attendance_numeric'].corr(DF[COL_OVERALL]).round(2) if 'Attendance_numeric' in DF.columns else 0.0
-    corr_hsc = DF[COL_HSC].corr(DF[COL_OVERALL]).round(2)
+    avg_attendance = DF['Attendance_numeric'].mean().round(1)
+    avg_study = DF['Preparation_numeric'].mean().round(1)
     top_score = DF[COL_OVERALL].max().round(2)
 
+    # Interpretations for display
+    def interpret_cgpa(cgpa):
+        if cgpa >= 3.50:
+            return "🌟 Excellent"
+        elif cgpa >= 3.00:
+            return "👍 Good"
+        else:
+            return "⚠️ Needs Improvement"
+
+    def interpret_attendance(att):
+        if att >= 85:
+            return "🟢 Very Consistent"
+        elif att >= 70:
+            return "🟡 Moderate"
+        else:
+            return "🔴 Low"
+
+    def interpret_study(hours):
+        if hours >= 3:
+            return "📘 Dedicated"
+        elif hours >= 1.5:
+            return "📗 Average"
+        else:
+            return "📕 Minimal Effort"
+
+    # Create layout
     col1, col2, col3, col4 = st.columns(4)
 
-    col1.metric(label="Avg. Overall CGPA 🎓", value=f"{avg_cgpa:.2f}")
-    col2.metric(label="Attendance vs. CGPA Corr.", value=f"{corr_attend:.2f}")
-    col3.metric(label="HSC vs. CGPA Corr.", value=f"{corr_hsc:.2f}")
-    col4.metric(label="Top CGPA 🏅", value=f"{top_score:.2f}")
+    # --- Metric 1: Average CGPA ---
+    col1.metric(
+        label="Average Overall CGPA 🎓",
+        value=f"{avg_cgpa:.2f}",
+        delta=interpret_cgpa(avg_cgpa),
+        help="Mean of all students' CGPA in the dataset."
+    )
 
-st.markdown("---") 
+    # --- Metric 2: Average Attendance ---
+    col2.metric(
+        label="Average Attendance (%) 🏫",
+        value=f"{avg_attendance}%",
+        delta=interpret_attendance(avg_attendance),
+        help="Shows the average attendance percentage among students."
+    )
+
+    # --- Metric 3: Average Study Time ---
+    col3.metric(
+        label="Average Study Time (hrs/day) ⏰",
+        value=f"{avg_study}",
+        delta=interpret_study(avg_study),
+        help="Indicates the average daily preparation or study time."
+    )
+
+    # --- Metric 4: Top CGPA ---
+    col4.metric(
+        label="Top Student CGPA 🏅",
+        value=f"{top_score:.2f}",
+        delta="🏆 Outstanding Achievement" if top_score >= 3.80 else "🎖️ High Performer",
+        help="Displays the highest CGPA recorded in this dataset."
+    )
+
+else:
+    st.warning("Some required numeric columns are missing. Please verify 'utils.py' or data preparation steps.")
+
+st.markdown("---")  # Separation line before charts
 
 # =========================================================================
 # --- VISUALIZATIONS SECTION ---
