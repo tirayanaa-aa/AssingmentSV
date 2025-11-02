@@ -113,7 +113,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     # --- 1A. Scatter Plot: Last Score vs. HSC Score ---
-    st.subheader("1.1 Last Score vs. HSC Score (Scatter)")
+    st.subheader("1. Last Score vs. HSC Score (Scatter)")
     if all(col in DF.columns for col in [COL_HSC, COL_LAST]):
         fig_scatter = px.scatter(
             DF, x=COL_HSC, y=COL_LAST, 
@@ -135,7 +135,7 @@ with col1:
 
 with col2:
     # --- 1B. Mean Overall CGPA by Attendance (Bar Chart) ---
-    st.subheader("1.2 Mean Overall CGPA by Attendance (Bar Chart)")
+    st.subheader("2. Mean Overall CGPA by Attendance (Bar Chart)")
     if COL_ATTENDANCE in DF.columns and COL_OVERALL in DF.columns:
         mean_overall_by_attendance = DF.groupby(COL_ATTENDANCE, observed=True)[COL_OVERALL].mean().reset_index()
         mean_overall_by_attendance.columns = [COL_ATTENDANCE, 'Mean Overall CGPA']
@@ -161,7 +161,7 @@ with col2:
 st.markdown("---")
 
 # --- 1C. Correlation Matrix Heatmap ---
-st.subheader("1.3 Correlation Matrix of Key Numerical Variables (Heatmap)")
+st.subheader("3. Correlation Matrix of Key Numerical Variables (Heatmap)")
 numerical_cols_corr = [COL_HSC, COL_SSC, 'Preparation_numeric', 'Attendance_numeric', COL_LAST, COL_OVERALL]
 available_cols_corr = [col for col in numerical_cols_corr if col in DF.columns]
 
