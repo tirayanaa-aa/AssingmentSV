@@ -56,7 +56,7 @@ st.markdown("---") # Separation line before charts
 # =========================================================================
 
 # --- 2A. Average Overall CGPA by Department and Gender (Grouped Bar Chart) ---
-st.subheader("A. Average Overall CGPA by Department and Gender")
+st.subheader("1. Average Overall CGPA by Department and Gender")
 if all(col in DF.columns for col in [COL_DEPARTMENT, COL_GENDER, COL_OVERALL]):
     dept_gender_overall = DF.groupby([COL_DEPARTMENT, COL_GENDER])[COL_OVERALL].mean().reset_index()
 
@@ -86,7 +86,7 @@ col3, col4 = st.columns(2)
 
 with col3:
     # --- 2B. Overall CGPA Distribution by Hometown (Violin Plot) ---
-    st.subheader("B. Overall CGPA Distribution by Hometown (Violin)")
+    st.subheader("2. Overall CGPA Distribution by Hometown (Violin)")
     if all(col in DF.columns for col in [COL_HOMETOWN, COL_OVERALL]):
         fig_violin = px.violin(
             DF, x=COL_HOMETOWN, y=COL_OVERALL,
@@ -108,7 +108,7 @@ with col3:
 
 with col4:
     # --- 2C. Overall CGPA Distribution by Income Level (Box Plot) ---
-    st.subheader("C. Overall CGPA Distribution by Income Level (Box)")
+    st.subheader("3. Overall CGPA Distribution by Income Level (Box)")
     if all(col in DF.columns for col in [COL_INCOME, COL_OVERALL]):
         income_order = [
             'Low (Below 15,000)', 'Lower middle (15,000-30,000)', 
