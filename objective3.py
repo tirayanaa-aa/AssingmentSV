@@ -82,7 +82,22 @@ if COL_SEMESTER in DF.columns and COL_OVERALL in DF.columns:
 
     st.caption(f"Overall Mean CGPA across all records: **{overall_mean:.2f}**")
 
-st.markdown("---")  # Visual separation before charts
+st.markdown("---")  # Visual separation before Box Summary
+
+# =========================================================================
+# 🎯 BOX SUMMARY (New Section)
+# =========================================================================
+st.subheader("📚 Key Findings Summary")
+st.info(
+    """
+    This section explores the temporal evolution of performance and the critical interplay between study habits. 
+    The trend analysis reveals that student performance, as measured by Mean Overall CGPA, generally **stabilizes or slightly improves** after the introductory semesters, indicating successful adaptation to the university environment. 
+    Critically, the habit interaction analysis shows a significant trade-off: **high preparation time acts as a protective factor**, minimizing the negative impact of moderate leisure activities (like gaming). 
+    Conversely, minimal preparation coupled with high gaming is strongly associated with the lowest average CGPAs, underscoring the necessity of prioritizing study commitment for success.
+    """
+)
+
+st.markdown("---") # Visual separation before charts
 # =========================================================================
 
 # --- 3A. Average Overall CGPA by Semester (Line Chart) ---
@@ -101,7 +116,7 @@ if all(col in DF.columns for col in [COL_SEMESTER, COL_OVERALL, 'Semester_sort']
     )
     fig_line.update_traces(line=dict(color='orange', width=3))
     st.plotly_chart(fig_line, use_container_width=True)
-
+    
     # SHORT INTERPRETATION 3.1
     with st.expander("📝 Interpretation 3.1: Temporal Trends"):
         st.markdown(
