@@ -12,45 +12,30 @@ if DF.empty:
     st.stop()
 
 # =========================================================================
-# 📢 SUMMARY METRICS SECTION: KPIs
+# 📢 SUMMARY METRICS SECTION: KPIs (Condensed for brevity)
 # =========================================================================
 st.subheader("📈 Key Performance Indicators (KPIs)")
 
 required_cols = [COL_OVERALL, 'Attendance_numeric', 'Preparation_numeric', COL_HSC]
 if all(col in DF.columns for col in required_cols):
     
-    # Compute metrics
+    # Compute metrics (using placeholders for actual calculation)
     avg_cgpa = DF[COL_OVERALL].mean().round(2)
-    corr_attend = DF['Attendance_numeric'].corr(DF[COL_OVERALL]).round(2)
+    corr_attend = DF['Attendance_numeric'].corr(DF[COL_OVERALL]).round(2) if 'Attendance_numeric' in DF.columns else 0.0
     corr_hsc = DF[COL_HSC].corr(DF[COL_OVERALL]).round(2)
     top_score = DF[COL_OVERALL].max().round(2)
 
     col1, col2, col3, col4 = st.columns(4)
 
-    # Metric 1: Average CGPA
-    col1.metric(label="Average Overall CGPA 🎓", value=f"{avg_cgpa:.2f}")
+    col1.metric(label="Avg. Overall CGPA 🎓", value=f"{avg_cgpa:.2f}")
+    col2.metric(label="Attendance vs. CGPA Corr.", value=f"{corr_attend:.2f}")
+    col3.metric(label="HSC vs. CGPA Corr.", value=f"{corr_hsc:.2f}")
+    col4.metric(label="Top CGPA 🏅", value=f"{top_score:.2f}")
 
-    # Metric 2: Attendance vs. CGPA Correlation
-    col2.metric(
-        label="Attendance vs. CGPA Corr.", 
-        value=f"{corr_attend:.2f}", 
-        delta="Strong Positive" if corr_attend > 0.5 else "Moderate"
-    )
-
-    # Metric 3: HSC vs. CGPA Correlation
-    col3.metric(
-        label="HSC vs. CGPA Corr.", 
-        value=f"{corr_hsc:.2f}", 
-        delta="Strong Positive" if corr_hsc > 0.6 else "Moderate"
-    )
-
-    # Metric 4: Top CGPA
-    col4.metric(label="Top Student CGPA 🏅", value=f"{top_score:.2f}")
-
-st.markdown("---") # Separation line before charts
+st.markdown("---") 
 
 # =========================================================================
-# --- VISUALIZATIONS SECTION WITH INTERPRETATION ---
+# --- VISUALIZATIONS SECTION ---
 # =========================================================================
 
 col1, col2 = st.columns(2)
@@ -67,13 +52,13 @@ with col1:
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
         
-        # INTERPRETATION 1.1
-        with st.expander("📝 Interpretation of Chart 1.1"):
+        # SHORT INTERPRETATION 1.1
+        with st.expander("📝 Interpretation 1.1: Academic Continuity"):
             st.markdown(
                 """
-                **Observed Pattern:** The data shows a **positive correlation**; students with higher HSC scores generally achieve higher Last Semester Scores.
-
-                **Scientific Meaning:** This confirms **academic continuity**—prior skills carry over. However, outliers indicate that university success depends on **adaptation and study habits**, not just past achievements.
+                **Pattern:** A **positive trend** shows past achievement (HSC) generally predicts current achievement (Last Score).
+                
+                **Meaning:** **Prior academic success is foundational**, but outliers show that university-specific factors can significantly change a student's trajectory.
                 """
             )
 
@@ -92,13 +77,13 @@ with col2:
         fig_bar.update_traces(texttemplate='%{text:.2f}', textposition='outside')
         st.plotly_chart(fig_bar, use_container_width=True)
         
-        # INTERPRETATION 1.2
-        with st.expander("📝 Interpretation of Chart 1.2"):
+        # SHORT INTERPRETATION 1.2
+        with st.expander("📝 Interpretation 1.2: Behavioral Impact"):
             st.markdown(
                 """
-                **Observed Pattern:** A **clear, positive trend** shows Mean Overall CGPA rising consistently as class attendance levels increase.
-
-                **Scientific Meaning:** This establishes **class attendance as a critical behavioral determinant**. Regular presence maximizes material exposure and reinforces disciplined habits, directly leading to superior cumulative performance.
+                **Pattern:** CGPA shows a **clear, positive increase** as class attendance levels rise.
+                
+                **Meaning:** **Attendance is a critical behavioral determinant.** Regular class presence maximizes material exposure and discipline, translating directly to higher cumulative performance.
                 """
             )
 
@@ -121,12 +106,12 @@ if len(available_cols_corr) >= 2:
     fig_corr.update_layout(title='Correlation Matrix of Academic and Habit Variables', height=600)
     st.plotly_chart(fig_corr, use_container_width=True)
 
-    # INTERPRETATION 1.3 (Full width)
-    with st.expander("📝 Interpretation of Chart 1.3"):
+    # SHORT INTERPRETATION 1.3 (Full width)
+    with st.expander("📝 Interpretation 1.3: Predictor Strength"):
         st.markdown(
             """
-            **Observed Pattern:** The **Last Score** shows the **strongest positive correlation** with **Overall CGPA**. Habit metrics (Preparation, Attendance) show positive but moderate correlations.
-
-            **Scientific Meaning:** **Internal university performance (Last Score) is the most immediate predictor.** The moderate correlation for habits suggests they are **contributing factors**, but that the *quality* and *efficiency* of study time, rather than just quantity, along with inherent ability, are ultimately more influential.
+            **Pattern:** **Last Score** has the **highest correlation** with **Overall CGPA**. Habits (Preparation, Attendance) show positive but moderate correlations.
+            
+            **Meaning:** **Past university performance is the best predictor.** Habits are important **contributing factors**, but the *quality* of study time and inherent academic ability are ultimately more influential than simply logging hours.
             """
         )
