@@ -10,10 +10,49 @@ if DF.empty:
     st.warning("Data is not available. Check the homepage for data status.")
     st.stop()
 
+# =========================================================================
+# 📢 SUMMARY METRICS SECTION: INSERT HERE
+# =========================================================================
+st.subheader("Key Demographic Insights")
+
+col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
+
+# 1. Highest Average CGPA Group (by Gender)
+if COL_GENDER in DF.columns and COL_OVERALL in DF.columns:
+    gender_avg = DF.groupby(COL_GENDER)[COL_OVERALL].mean()
+    top_gender = gender_avg.idxmax()
+    top_avg = gender_avg.max().round(2)
+    col_kpi1.metric(
+        label="Highest Average CGPA (Gender)",
+        value=f"{top_gender} ({top_avg:.2f})"
+    )
+
+# 2. CGPA Range
+if COL_OVERALL in DF.columns:
+    cgpa_range = (DF[COL_OVERALL].max() - DF[COL_OVERALL].min()).round(2)
+    col_kpi2.metric(
+        label="Overall CGPA Range", 
+        value=f"{cgpa_range:.2f}"
+    )
+
+# 3. Most Diverse Hometown (Highest Standard Deviation)
+if COL_HOMETOWN in DF.columns and COL_OVERALL in DF.columns:
+    # Ensure there are enough unique values for std calculation
+    if DF[COL_HOMETOWN].nunique() > 1:
+        hometown_std = DF.groupby(COL_HOMETOWN)[COL_OVERALL].std()
+        most_diverse_hometown = hometown_std.idxmax()
+        col_kpi3.metric(
+            label="Hometown with Most Diverse Scores (High Std Dev)", 
+            value=f"{most_diverse_hometown}"
+        )
+    
+st.markdown("---") # Visual separation before the charts begin
+# =========================================================================
 
 # --- 2A. Average Overall CGPA by Department and Gender (Grouped Bar Chart) ---
 st.subheader("A. Average Overall CGPA by Department and Gender")
 if all(col in DF.columns for col in [COL_DEPARTMENT, COL_GENDER, COL_OVERALL]):
+# ... (rest of the original code follows) ...
     dept_gender_overall = DF.groupby([COL_DEPARTMENT, COL_GENDER])[COL_OVERALL].mean().reset_index()
 
     fig_bar_dept_gender = px.bar(
