@@ -102,6 +102,16 @@ if all(col in DF.columns for col in [COL_SEMESTER, COL_OVERALL, 'Semester_sort']
     fig_line.update_traces(line=dict(color='orange', width=3))
     st.plotly_chart(fig_line, use_container_width=True)
 
+    # SHORT INTERPRETATION 3.1
+    with st.expander("📝 Interpretation 3.1: Temporal Trends"):
+        st.markdown(
+            """
+            **Pattern:** Performance tends to **stabilize or slightly increase** after the initial semester.
+            
+            **Meaning:** Students generally **adapt** to university life over time, but minor dips often correspond to the introduction of more **complex, specialized coursework**.
+            """
+        )
+
 st.markdown("---")
 
 # --- 3B. Comparison of Mean Last Score and Mean Overall CGPA by Department (Dumbbell Plot) ---
@@ -135,6 +145,16 @@ if all(col in DF.columns for col in [COL_DEPARTMENT, COL_LAST, COL_OVERALL]):
     )
     st.plotly_chart(fig_dumbbell, use_container_width=True)
 
+    # SHORT INTERPRETATION 3.2
+    with st.expander("📝 Interpretation 3.2: Consistency Check"):
+        st.markdown(
+            """
+            **Pattern:** If markers are clustered, performance is **consistent**. Large gaps mean recent performance (blue) has shifted significantly from the historical average (red).
+            
+            **Meaning:** This plot helps **identify departmental performance shifts**. Large gaps signal a significant change that requires immediate administrative review.
+            """
+        )
+
 st.markdown("---")
 
 # --- 3C. Mean Overall CGPA by Preparation and Gaming (Grouped Bar Chart) ---
@@ -152,3 +172,13 @@ if all(col in DF.columns for col in [COL_PREPARATION, COL_GAMING, COL_OVERALL]):
     )
     fig_prep_gaming.update_xaxes(tickangle=45)
     st.plotly_chart(fig_prep_gaming, use_container_width=True)
+
+    # SHORT INTERPRETATION 3.3
+    with st.expander("📝 Interpretation 3.3: Study-Leisure Trade-Off"):
+        st.markdown(
+            """
+            **Pattern:** High **Preparation** minimizes the negative effect of **Gaming**. Low preparation combined with high gaming yields the worst results.
+            
+            **Meaning:** **Study commitment is the most important factor.** Moderate gaming is fine for dedicated students (likely acting as a needed break), but for those who study minimally, gaming becomes a major performance detractor.
+            """
+        )
