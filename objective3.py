@@ -15,45 +15,74 @@ if DF.empty:
     st.stop()
 
 # =========================================================================
-# 📢 SUMMARY METRICS SECTION: INSERT HERE
+# 📢 SUMMARY METRICS SECTION
 # =========================================================================
-st.subheader("Key Trend and Habit Summaries")
+st.subheader("📊 Summary of Key Trends and Habit Insights")
 
-col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
-
-# Calculate shared required data for metrics
 if COL_SEMESTER in DF.columns and COL_OVERALL in DF.columns:
     semester_avg = DF.groupby(COL_SEMESTER)[COL_OVERALL].mean()
-    
-    # 1. Best Semester Performance
+
+    # Calculate metrics
     best_semester = semester_avg.idxmax()
     best_avg = semester_avg.max().round(2)
-    col_kpi1.metric(
-        label="Highest Average CGPA Semester", 
-        value=f"{best_semester} ({best_avg:.2f})"
+    worst_semester = semester_avg.idxmin()
+    worst_avg = semester_avg.min().round(2)
+    sem_diff = (best_avg - worst_avg).round(2)
+    overall_mean = DF[COL_OVERALL].mean().round(2)
+
+    # Determine best preparation & gaming group
+    if all(col in DF.columns for col in [COL_PREPARATION, COL_OVERALL]):
+        prep_avg = DF.groupby(COL_PREPARATION)[COL_OVERALL].mean()
+        best_prep = prep_avg.idxmax()
+        best_prep_val = prep_avg.max().round(2)
+    else:
+        best_prep, best_prep_val = "N/A", 0
+
+    if all(col in DF.columns for col in [COL_GAMING, COL_OVERALL]):
+        gaming_avg = DF.groupby(COL_GAMING)[COL_OVERALL].mean()
+        best_gaming = gaming_avg.idxmax()
+        best_gaming_val = gaming_avg.max().round(2)
+    else:
+        best_gaming, best_gaming_val = "N/A", 0
+
+    # Layout for metrics
+    col1, col2, col3, col4 = st.columns(4)
+
+    # 1️⃣ Best Semester
+    col1.metric(
+        label="Best Performing Semester 🏆",
+        value=f"{best_semester}",
+        delta=f"{best_avg}",
+        help="Semester with the highest mean CGPA."
     )
 
-    # 3. Difference between Max and Min Semester CGPA
-    sem_min = semester_avg.min()
-    sem_max = semester_avg.max()
-    sem_diff = (sem_max - sem_min).round(2)
-    col_kpi3.metric(
-        label="Max Semester CGPA Difference", 
+    # 2️⃣ CGPA Variation Across Semesters
+    col2.metric(
+        label="Semester CGPA Gap 📉",
         value=f"{sem_diff:.2f}",
-        delta_color="off"
+        delta=f"{worst_semester} - {best_semester}",
+        help="Difference between best and worst semester performance."
     )
 
-# 2. Highest Performance Habit Group (Preparation Time)
-if COL_PREPARATION in DF.columns and COL_OVERALL in DF.columns:
-    prep_avg = DF.groupby(COL_PREPARATION)[COL_OVERALL].mean()
-    best_prep = prep_avg.idxmax()
-    best_prep_avg = prep_avg.max().round(2)
-    col_kpi2.metric(
-        label="Best Preparation Time Category", 
-        value=f"{best_prep} ({best_prep_avg:.2f})"
+    # 3️⃣ Best Preparation Time
+    col3.metric(
+        label="Top Preparation Time Category 📚",
+        value=f"{best_prep}",
+        delta=f"{best_prep_val}",
+        help="Preparation habit associated with the highest mean CGPA."
     )
 
-st.markdown("---") # Visual separation before the charts begin
+    # 4️⃣ Top Gaming Time Group
+    col4.metric(
+        label="Top Gaming Category 🎮",
+        value=f"{best_gaming}",
+        delta=f"{best_gaming_val}",
+        help="Gaming frequency linked to the highest performance average."
+    )
+
+    st.caption(f"Overall Mean CGPA across all records: **{overall_mean:.2f}**")
+
+st.markdown("---")  # Visual separation before charts
 # =========================================================================
 
 # --- 3A. Average Overall CGPA by Semester (Line Chart) ---
