@@ -88,7 +88,22 @@ if all(col in DF.columns for col in required_cols):
 else:
     st.warning("Some required numeric columns are missing. Please verify 'utils.py' or data preparation steps.")
 
-st.markdown("---")  # Separation line before charts
+st.markdown("---")  # Separation line before summary
+
+# =========================================================================
+# 🎯 BOX SUMMARY (New Section)
+# =========================================================================
+st.subheader("📚 Key Findings Summary")
+st.info(
+    """
+    This analysis establishes the fundamental relationship between prior academic success, daily habits, and final university performance. 
+    The scatter plot reveals a **direct, positive link between HSC scores and Last Semester Scores**, confirming that historical performance provides a critical foundation. 
+    The Mean Overall CGPA is heavily influenced by **attendance**, which shows a clear, proportional increase in performance as class presence rises. 
+    Most notably, the correlation heatmap identifies the **Last Score (recent university performance) as the single best predictor** of the Overall CGPA. 
+    While good habits are essential contributing factors, the data indicates that sustained engagement and proven recent success within the university environment are the most reliable indicators of a student's final academic standing.
+    """
+)
+st.markdown("---") # Separation line before charts
 
 # =========================================================================
 # --- VISUALIZATIONS SECTION ---
