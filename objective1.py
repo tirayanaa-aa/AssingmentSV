@@ -11,6 +11,44 @@ if DF.empty:
     st.warning("Data is not available. Check the homepage for data status.")
     st.stop()
 
+# =========================================================================
+# 📢 SUMMARY METRICS SECTION: INSERT HERE
+# =========================================================================
+
+st.subheader("Key Performance Indicators (KPIs)")
+
+# Ensure 'Attendance_numeric' exists, which is created in utils.py
+if 'Attendance_numeric' in DF.columns and 'Preparation_numeric' in DF.columns:
+    col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
+
+    # 1. Overall Average CGPA
+    avg_cgpa = DF[COL_OVERALL].mean().round(2)
+    col_kpi1.metric(
+        label="Overall Average CGPA", 
+        value=f"{avg_cgpa:.2f}"
+    )
+
+    # 2. Attendance-Performance Correlation
+    corr_attend = DF['Attendance_numeric'].corr(DF[COL_OVERALL]).round(2)
+    col_kpi2.metric(
+        label="Attendance vs. Overall CGPA Correlation", 
+        value=f"{corr_attend:.2f}",
+        delta="Strong Positive" if corr_attend > 0.5 else "Moderate"
+    )
+
+    # 3. HSC-Performance Correlation
+    corr_hsc = DF[COL_HSC].corr(DF[COL_OVERALL]).round(2)
+    col_kpi3.metric(
+        label="HSC Score vs. Overall CGPA Correlation", 
+        value=f"{corr_hsc:.2f}"
+    )
+
+st.markdown("---") # Visual separation before the charts begin
+
+# =========================================================================
+# --- VISUALIZATIONS SECTION ---
+# =========================================================================
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -24,6 +62,9 @@ with col1:
             template='plotly_white'
         )
         st.plotly_chart(fig_scatter, use_container_width=True)
+
+# ... (rest of the code for 1B and 1C continues here) ...
+# ... (The rest of your original code follows below) ...
 
 with col2:
     # --- 1B. Mean Overall CGPA by Attendance (Bar Chart) ---
