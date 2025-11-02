@@ -86,7 +86,7 @@ st.markdown("---")  # Visual separation before charts
 # =========================================================================
 
 # --- 3A. Average Overall CGPA by Semester (Line Chart) ---
-st.subheader("3.1. Average Overall CGPA Trend by Semester (Line Chart)")
+st.subheader("3.1 Average Overall CGPA Trend by Semester (Line Chart)")
 if all(col in DF.columns for col in [COL_SEMESTER, COL_OVERALL, 'Semester_sort']):
     
     semester_overall = DF.groupby(COL_SEMESTER).agg(
@@ -105,7 +105,7 @@ if all(col in DF.columns for col in [COL_SEMESTER, COL_OVERALL, 'Semester_sort']
 st.markdown("---")
 
 # --- 3B. Comparison of Mean Last Score and Mean Overall CGPA by Department (Dumbbell Plot) ---
-st.subheader("3.2. Comparison of Mean Last Score and Mean Overall CGPA (Dumbbell Plot)")
+st.subheader("3.2 Comparison of Mean Last Score and Mean Overall CGPA (Dumbbell Plot)")
 if all(col in DF.columns for col in [COL_DEPARTMENT, COL_LAST, COL_OVERALL]):
     mean_scores_by_dept = DF.groupby(COL_DEPARTMENT)[[COL_LAST, COL_OVERALL]].mean().reset_index()
     mean_scores_by_dept = mean_scores_by_dept.sort_values(by=COL_OVERALL, ascending=True)
@@ -138,7 +138,7 @@ if all(col in DF.columns for col in [COL_DEPARTMENT, COL_LAST, COL_OVERALL]):
 st.markdown("---")
 
 # --- 3C. Mean Overall CGPA by Preparation and Gaming (Grouped Bar Chart) ---
-st.subheader("3.3. Mean Overall CGPA by Preparation and Gaming")
+st.subheader("3.3 Mean Overall CGPA by Preparation and Gaming")
 if all(col in DF.columns for col in [COL_PREPARATION, COL_GAMING, COL_OVERALL]):
     
     prep_gaming_overall = DF.groupby([COL_PREPARATION, COL_GAMING], observed=True)[COL_OVERALL].mean().reset_index()
