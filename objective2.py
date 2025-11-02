@@ -11,52 +11,80 @@ if DF.empty:
     st.stop()
 
 # =========================================================================
-# 📢 SUMMARY METRICS SECTION: INSERT HERE
+# 📢 SUMMARY METRICS SECTION
 # =========================================================================
-st.subheader("Key Demographic Insights")
+st.subheader("📊 Summary of Key Demographic Insights")
 
-col_kpi1, col_kpi2, col_kpi3 = st.columns(3)
-
-# 1. Highest Average CGPA Group (by Gender)
-if COL_GENDER in DF.columns and COL_OVERALL in DF.columns:
-    gender_avg = DF.groupby(COL_GENDER)[COL_OVERALL].mean()
-    top_gender = gender_avg.idxmax()
-    top_avg = gender_avg.max().round(2)
-    col_kpi1.metric(
-        label="Highest Average CGPA (Gender)",
-        value=f"{top_gender} ({top_avg:.2f})"
-    )
-
-# 2. CGPA Range
 if COL_OVERALL in DF.columns:
-    cgpa_range = (DF[COL_OVERALL].max() - DF[COL_OVERALL].min()).round(2)
-    col_kpi2.metric(
-        label="Overall CGPA Range", 
-        value=f"{cgpa_range:.2f}"
+    avg_cgpa = DF[COL_OVERALL].mean().round(2)
+    max_cgpa = DF[COL_OVERALL].max().round(2)
+    min_cgpa = DF[COL_OVERALL].min().round(2)
+
+    # Determine top performing gender
+    if COL_GENDER in DF.columns:
+        gender_avg = DF.groupby(COL_GENDER)[COL_OVERALL].mean()
+        top_gender = gender_avg.idxmax()
+        top_gender_val = gender_avg.max().round(2)
+    else:
+        top_gender, top_gender_val = "N/A", 0
+
+    # Determine top performing income group
+    if COL_INCOME in DF.columns:
+        income_avg = DF.groupby(COL_INCOME)[COL_OVERALL].mean()
+        top_income = income_avg.idxmax()
+        top_income_val = income_avg.max().round(2)
+    else:
+        top_income, top_income_val = "N/A", 0
+
+    # Layout
+    col1, col2, col3, col4 = st.columns(4)
+
+    # 1️⃣ Average CGPA
+    col1.metric(
+        label="Average CGPA 🎓",
+        value=f"{avg_cgpa:.2f}",
+        delta=f"Range: {min_cgpa} - {max_cgpa}",
+        help="Shows the mean overall CGPA with its range."
     )
 
-# 3. Most Diverse Hometown (Highest Standard Deviation)
-if COL_HOMETOWN in DF.columns and COL_OVERALL in DF.columns:
-    # Ensure there are enough unique values for std calculation
-    if DF[COL_HOMETOWN].nunique() > 1:
-        hometown_std = DF.groupby(COL_HOMETOWN)[COL_OVERALL].std()
-        most_diverse_hometown = hometown_std.idxmax()
-        col_kpi3.metric(
-            label="Hometown with Most Diverse Scores (High Std Dev)", 
-            value=f"{most_diverse_hometown}"
-        )
-    
-st.markdown("---") # Visual separation before the charts begin
+    # 2️⃣ Top Performing Gender
+    col2.metric(
+        label="Top Performing Gender 🚻",
+        value=f"{top_gender}",
+        delta=f"{top_gender_val}",
+        help="Gender group with the highest average CGPA."
+    )
+
+    # 3️⃣ Top Performing Income Group
+    col3.metric(
+        label="Top Performing Income Group 💰",
+        value=f"{top_income}",
+        delta=f"{top_income_val}",
+        help="Income level with the highest average CGPA."
+    )
+
+    # 4️⃣ CGPA Variation (Diversity)
+    cgpa_std = DF[COL_OVERALL].std().round(2)
+    variation_status = (
+        "🔹 High Variation" if cgpa_std > 0.5 else "🔸 Moderate" if cgpa_std > 0.3 else "🟢 Consistent"
+    )
+    col4.metric(
+        label="CGPA Variation 📈",
+        value=f"{cgpa_std}",
+        delta=variation_status,
+        help="Represents consistency of student performance across groups."
+    )
+
+st.markdown("---")  # Visual separation before the charts
 # =========================================================================
 
 # --- 2A. Average Overall CGPA by Department and Gender (Grouped Bar Chart) ---
 st.subheader("A. Average Overall CGPA by Department and Gender")
 if all(col in DF.columns for col in [COL_DEPARTMENT, COL_GENDER, COL_OVERALL]):
-# ... (rest of the original code follows) ...
     dept_gender_overall = DF.groupby([COL_DEPARTMENT, COL_GENDER])[COL_OVERALL].mean().reset_index()
 
     fig_bar_dept_gender = px.bar(
-        dept_gender_overall, x=COL_DEPARTMENT, y=COL_OVERALL, 
+        dept_gender_overall, x=COL_DEPARTMENT, y=COL_OVERALL,
         color=COL_GENDER, barmode='group',
         title='Average Overall CGPA by Department and Gender',
         template='plotly_white',
@@ -85,7 +113,7 @@ with col4:
     st.subheader("C. Overall CGPA Distribution by Income Level (Box)")
     if all(col in DF.columns for col in [COL_INCOME, COL_OVERALL]):
         income_order = [
-            'Low (Below 15,000)', 'Lower middle (15,000-30,000)', 
+            'Low (Below 15,000)', 'Lower middle (15,000-30,000)',
             'Upper middle (30,000-50,000)', 'High (Above 50,000)'
         ]
         valid_income_order = [inc for inc in income_order if inc in DF[COL_INCOME].unique()]
